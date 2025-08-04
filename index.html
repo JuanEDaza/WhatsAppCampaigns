@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Creación de campañas WhatsApp</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Creación de campañas WhatsApp</h1>
+    </div>
+
+    <!-- Formulario -->
+    <div class="main-content">
+
+      <!-- Cargar archivo -->
+      <div class="form-section">
+        <div class="file-upload-wrapper" id="dropZone">
+          <div class="upload-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="#28a745">
+              <path
+                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zm1 7h5l-5-5zM8 13h2v2H8zm0 3h2v2H8zm3 0h2v2h-2zm3 0h2v2h-2zm-3-3h2v2h-2zm3 0h2v2h-2z" />
+            </svg>
+          </div>
+          <input type="file" id="fileInput" accept=".csv,.xlsx,.xls">
+          <span class="file-label" id="fileLabel">Arrastra aquí o haz clic para seleccionar un archivo</span>
+        </div>
+        <div id="fileError" class="error hidden">Archivo inválido. Solo se permiten archivos .csv, .xls, .xlsx.</div>
+      </div>
+
+      <div id="form-container" class="hidden">
+        <!-- Nombre plantilla -->
+        <div class="form-section">
+          <label for="templateName">Nombre del template:</label>
+          <input type="text" id="templateName" value="hello_world">
+        </div>
+
+        <!-- Idioma -->
+        <!-- https://developers.facebook.com/docs/whatsapp/business-management-api/message-templates/supported-languages?locale=es_ES -->
+        <div class="form-section">
+          <label for="language">Idioma:</label>
+          <select id="language">
+            <option value="">Selecciona un idioma</option>
+            <option value="en_US">en_US</option>
+            <option value="es" selected>es</option>
+            <option value="es_ES">es_ES</option>
+            <option value="es_MX">es_MX</option>
+          </select>
+        </div>
+
+        <!-- Encabezado -->
+        <div class="form-section flex-row">
+          <div id="headerContainer">
+            <label for="header">Encabezado:</label>
+            <select id="header">
+              <option value="">Selecciona</option>
+              <option value="image">Imagen</option>
+              <option value="video">Video</option>
+              <option value="document">Documento</option>
+            </select>
+          </div>
+          <div id="headerTextContainer" class="hidden">
+            <label for="headerText">URL del encabezado:</label>
+            <input type="text" id="headerText" placeholder="https://..." value="URL ENCABEZADO">
+            <!-- value="https://crezcamos.com/wp-content/uploads/2025/07/PIEZA-MSM-WAPP-MOSI.png"> -->
+            <small id="urlError" class="error"></small>
+          </div>
+        </div>
+
+        <!-- Campo para selección el teléfono dentro del adjunto -->
+        <div class="form-section" id="telefonoMappingSection">
+          <label for="telefonoMapping">Teléfono:</label>
+          <select id="telefonoMapping">
+            <option value="">Selecciona</option>
+            <!-- Las opciones serán agregadas dinámicamente -->
+          </select>
+        </div>
+
+        <!-- Cantidad de parámetros -->
+        <div class="form-section hidden" id="paramCountSection">
+          <label for="paramCount">Cantidad de parámetros:</label>
+          <select id="paramCount">
+            <option value="">Selecciona</option>
+          </select>
+        </div>
+
+        <!-- Contenedor dinámico para parámetros -->
+        <div class="form-section" id="paramMappingContainer"></div>
+
+        <!-- Botón para generar formato -->
+        <div class="form-section">
+          <button id="sendCampaign" type="button" onclick="SendCampaign()">Enviar campaña</button>
+        </div>
+
+        <!-- Barra de progreso -->
+        <div id="progressContainer" class="hidden">
+          <div id="progressBarWrapper">
+            <div id="progressBar"></div>
+          </div>
+          <div id="progressInfo"></div>
+        </div>
+
+        <!-- Resultado -->
+        <div id="output-wrapper">
+          <div id="output"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"></script>
+  <script type="text/javascript">
+    /* // Obtain a reference to the platformClient object
+    const platformClient = require('platformClient');
+
+    const api = platformClient.ApiClient.instance;
+    //client.setEnvironment(platformClient.PureCloudRegionHosts.us_east_1); // Genesys Cloud region
+    api.setEnvironment(platformClient.PureCloudRegionHosts.sa_east_1); // Genesys Cloud region
+
+    // Manually set auth token or use loginImplicitGrant(...) or loginClientCredentialsGrant(...) or loginPKCEGrant(...)
+    //const temp_token = "6h43XHoFT30vKphAVtQpm5tjsX0ZeypSTW0GuN1yDDeNrrgjfJnQO1Lv94EKMnNkAUB4IHd0Wxv2U2wZyLtpaA"; //USE1
+    const temp_token = "FQwYT3PhQXxh58pczFoH5JiCDRd-t4TfQrGb2ZFOvo3aFZfRh25H_3ai3dr6opwskS4Rj5x_ZvdRCVcm-109cA"; //SAE1
+    api.setAccessToken(temp_token);
+    console.log("Token: " + temp_token); */
+
+    async function getToken() {
+      console.log("Se ejecuta getToken HTML")
+      const clientId = "f2a5d6ef-3bee-46aa-a030-26da701878bd";
+      const clientSecret = "JLNDulNesyZQwUuE4tVQcd7Jt48Q2tAUSyukt8wPyeY";
+      const environment = "sae1.pure.cloud";
+
+      const params = new URLSearchParams();
+      params.append('grant_type', 'client_credentials');
+
+      try {
+        const response = await fetch(`https://login.${environment}/oauth/token`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Basic ' + btoa(`${clientId}:${clientSecret}`)
+          },
+          body: params
+        });
+
+        /* const response = await fetch(`https://login.${environment}/oauth/token`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': `Basic ${Buffer.from(clientId + ':' + clientSecret).toString('base64')}`
+          },
+          body: params
+        }) */
+
+        const data = await response.json();
+        console.log(data.access_token);
+        return data.access_token;
+      } catch (error) {
+        console.error("getToken(). Error al obtener token:\n", error);
+        return null;
+      }
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>

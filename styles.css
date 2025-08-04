@@ -1,0 +1,249 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f4f6f8;
+  color: #333;
+}
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.header h1 {
+  margin: 0 0 20px 0;
+  font-size: 24px;
+  color: #007BFF;
+  text-align: center;
+}
+
+.main-content input[type="file"] {
+  display: block;
+  margin-bottom: 20px;
+}
+
+input, select {
+  padding: 10px;
+  margin-top: 5px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.3s;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #007BFF;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.form-section {
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #007BFF;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+#output-wrapper {
+  overflow-x: auto;
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-top: 30px;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+}
+
+#output table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+#output th, #output td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+#output th {
+  background-color: #e9f2ff;
+}
+
+#output tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.pagination {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.pagination button {
+  margin: 3px;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background: #8abff7;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.pagination button.active {
+  background-color: #007BFF;
+  color: white;
+  font-weight: bold;
+}
+
+.pagination button:hover {
+  background-color: #eee;
+}
+
+
+.hidden {
+  display: none;
+}
+
+.error {
+  color: #d93025;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.file-upload-wrapper {
+  position: relative;
+  border: 2px dashed #007BFF;
+  background-color: #f0f8ff;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.file-upload-wrapper.dragover {
+  border-color: #0056b3;
+  background-color: #e6f0ff;
+}
+
+.file-upload-wrapper:hover {
+  border-color: #003c7c;
+}
+
+.file-upload-wrapper input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+.file-label {
+  font-size: 16px;
+  color: #007BFF;
+  pointer-events: none;
+}
+
+.upload-icon {
+  margin-bottom: 10px;
+}
+
+.upload-icon svg {
+  width: 48px;
+  height: 48px;
+  fill: #28a745; /* Verde Excel */
+  opacity: 0.9;
+  transition: transform 0.2s ease, fill 0.2s ease;
+}
+
+.file-upload-wrapper.dragover .upload-icon svg {
+  transform: scale(1.1);
+  fill: #218838;
+  opacity: 1;
+}
+
+.file-upload-wrapper.valid {
+  border-color: #28a745;
+  background-color: #d6ffe8;
+}
+
+.flex-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.flex-row #headerContainer, .flex-row #headerTextContainer {
+  flex: 1;
+}
+
+#progressContainer {
+  margin-top: 20px;
+}
+
+#progressBarWrapper {
+  width: 100%;
+  background-color: #eee;
+  border-radius: 4px;
+  height: 20px;
+  overflow: hidden;
+}
+
+#progressBar {
+  height: 100%;
+  width: 0%;
+  background-color: #4caf50;
+  transition: width 0.3s ease;
+}
+
+#progressInfo {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+#paramMappingContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin: 10px 0;
+}
+
+#paramMappingContainer .form-section {
+  display: flex;
+  flex-direction: column;
+}
+
+
